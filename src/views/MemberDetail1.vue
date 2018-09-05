@@ -11,7 +11,6 @@
           <el-form-item label="会员类型："><span>{{memberBasic.memberType}}</span></el-form-item>
           <el-form-item label="剩余时长："><span>{{memberBasic.memberRestTime}}</span></el-form-item>
         </el-form>
-        
     </div>
 </template>
 <script>
