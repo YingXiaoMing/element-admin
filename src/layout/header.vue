@@ -5,6 +5,20 @@
         </a>
         <nav class="navbar">
             <a href="#" class="sidebar-toggle" role="button" @click.stop.prevent="toggleMenu()"></a>
+            <div class="navbar-custom-menu">
+                <span class="nav-custom-tag">
+                    <i class="fa fa-envelope-o"></i>超级管理员
+                </span>
+                <el-dropdown trigger="click">
+                    <span class="el-dropdown-link">
+                        设置<i class="el-icon-arrow-down el-icon--right"></i>
+                    </span>
+                  <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item>忘记密码</el-dropdown-item>
+                      <el-dropdown-item>登出</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+            </div>
         </nav>
     </header>
 </template>
@@ -32,6 +46,7 @@ export default {
 .animated {
     animation-duration: .2s;
 }
+
 .main-header {
     position: fixed;
     min-width: 100%;
@@ -61,6 +76,26 @@ export default {
         border: none;
         background-color: #ffffff;
         border-radius: 0;
+        .navbar-custom-menu{
+            float: right;
+            i.fa {
+                margin-right: 10px;
+            }
+            .el-dropdown{
+                width: 90px;
+                text-align: center;
+                &:hover {
+                    background: #f9f9f9;
+                }
+                .el-dropdown-link {
+                    cursor: pointer;
+                    height: 50px;
+                    line-height: 50px;
+                    width: 90px;
+                }
+            }
+            
+        }
         .sidebar-toggle{
             display: block;
             float: left;
