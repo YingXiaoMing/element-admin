@@ -4,7 +4,7 @@
             <div class="sidebar">
                 <el-menu :default-active="onRoutes" class="el-menu-style" theme="light" router
                 :collapse="sidebar.collapsed">
-                  <template v-for="item in menuList">
+                  <template v-for="item in routers" v-if="!item.hidden&&item.children">
                       <sub-menu :param="item"></sub-menu>
                   </template>
                 </el-menu>
@@ -22,7 +22,8 @@ export default {
     computed: {
         ...mapGetters([
             'menuList',
-            'sidebar'
+            'sidebar',
+            'routers'
         ]),
         onRoutes() {
             return this.$route.path;

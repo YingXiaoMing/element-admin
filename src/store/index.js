@@ -2,7 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 import types from "./mutation-types";
 import defaultValue from "../config/default";
-import { getCurrentMenu } from "../common/utils";
+import { getCurrentMenu,deepCopy } from "../common/utils";
+import { constantRouterMap, asyncRouterMap } from "@/router";
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -10,7 +11,9 @@ const store = new Vuex.Store({
     getters: {
         menuList: state => state.menuList,
         currentMenus: state => state.currentMenus,
-        sidebar: state => state.sidebar
+        sidebar: state => state.sidebar,
+        routers: state => state.routers,
+        addRoutes: state => state.addRoutes
     },
     state: {
         menuList: {},
@@ -18,7 +21,9 @@ const store = new Vuex.Store({
         sidebar: {
             collapsed: false,
             show: true
-        }
+        },
+        addRoutes: [],
+        routers: deepCopy(constantRouterMap)
     },
     //同步函数
     mutations: {
@@ -37,6 +42,11 @@ const store = new Vuex.Store({
             else {
                 state.sidebar.show = show;
             }
+        },
+        [types.SET_ROUTERS] (state, routers) {
+            state.addRoutes = deepCopy(routers) ;
+            state.routers = deepCopy(constantRouterMap).concat(deepCopy(routers));
+            console.log("1");
         }
     },
     actions: {
@@ -46,6 +56,10 @@ const store = new Vuex.Store({
         changeCurrentMenu: ({state,commit},{fullPath}) => {
             const a = getCurrentMenu(fullPath,state.menuList);
             commit(types.LOAD_CURRENT_MENU, a.reverse());
+        },
+        GenerateRoutes : ({commit}) => {
+            
+            commit(types.SET_ROUTERS,asyncRouterMap);
         }
     }
 })
