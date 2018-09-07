@@ -189,7 +189,6 @@ export default {
         handleEdit(row) {
             this.isShowDetail = true;
             this.detailForm = Object.assign({},row,true);
-            console.log(this.detailForm);
         }
     }
 }

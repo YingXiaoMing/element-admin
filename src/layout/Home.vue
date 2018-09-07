@@ -5,11 +5,7 @@
     <div class="content-wrapper" :class="{ slideCollapse: sidebar.collapsed }">
         <el-scrollbar tag="div" wrapClass="content-scrollbar">
             <section class="content">
-                <el-breadcrumb separator=">" style="margin-bottom:20px;">
-                  <template v-for="child in currentMenus">
-                      <el-breadcrumb-item>{{child.name}}</el-breadcrumb-item>
-                  </template>
-                </el-breadcrumb>
+                <breadcrumb class="breadcrumb-container"></breadcrumb>
                 <transition mode="out-in" enter-active-class="fadeIn" leave-active-class="fadeOut" appear>
                     <router-view></router-view>
                 </transition>
@@ -22,31 +18,21 @@
 import Vue from "vue";
 import VHeader from "./header";
 import VSider from "./sideMenu";
+import Breadcrumb from "@/components/Breadcrumb";
 import { mapActions, mapGetters } from 'vuex';
 import 'animate.css'
 export default {
     name: 'home',
     components: {
         VHeader,
-        VSider
+        VSider,
+        Breadcrumb
     },
     computed: {
         ...mapGetters({
-            currentMenus: 'currentMenus',
             sidebar: 'sidebar'
         })
     },
-    created () {
-        this.$router.beforeEach((to, from, next) => {
-            this.$store.dispatch('changeCurrentMenu',to);
-            next()
-        })
-    },
-    methods: {
-        ...mapActions({
-            changeCurrentMenu: 'changeCurrentMenu'
-        })
-    }
 }
 </script>
 <style lang="scss">
@@ -76,6 +62,9 @@ body {
     padding-top: 50px;
     .content {
         padding: 1.25rem;
+        .breadcrumb-container {
+            margin-bottom: 20px;
+        }
     }
     &.slideCollapse {
         margin-left: 44px;
