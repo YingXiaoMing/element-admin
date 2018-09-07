@@ -5,6 +5,7 @@ import App from './App.vue'
 
 Vue.use(Router)
 
+
 export const constantRouterMap = [
   { 
     path:'', 
@@ -15,7 +16,7 @@ export const constantRouterMap = [
       path: 'index',
       component: () => import('./views/OrderDetail.vue')
     }],
-  }
+  },
 ];
 
 export const asyncRouterMap = [
@@ -42,14 +43,53 @@ export const asyncRouterMap = [
         }
       }
     ]
+  },
+  {
+    path: '*',
+    redirect: '/404',
+    hidden: true
+  },
+  {
+    menuId: 3,
+    path: '/form',
+    name: '订单管理',
+    component: Home,
+    redirect: 'noredirect', 
+    meta: {
+      title: "订单管理",
+      icon: "fa fa-user-o"
+    },
+    children: [
+      {
+        menuId: 4,
+        path: 'detail',
+        name: '订单详情',
+        component: () => import('./views/OrderDetail.vue'),
+        meta: {
+          title: '订单详情',
+          icon: 'fa fa-user-o'
+        }
+      },
+      {
+        menuId: 5,
+        path: 'detail2',
+        name: '订单资料',
+        component: () => import('./views/OrderDetail.vue'),
+        meta: {
+          title: '订单资料',
+          icon: 'fa fa-user-o'
+        }
+      }
+    ]
   }
 
 ]
 
+const routes = [...asyncRouterMap,...constantRouterMap];
 
 const router =  new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: constantRouterMap
+  routes: routes
 })
 export default router;
