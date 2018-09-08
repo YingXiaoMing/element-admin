@@ -21,7 +21,26 @@ export const constantRouterMap = [
 
 export const asyncRouterMap = [
   {
-    menuId: 1,
+    path: '/system',
+    component: Home,
+    hidden: false,
+    name: '系统管理',
+    redirect: 'noredirect', 
+    meta: {
+      title: '系统管理',
+      icon: 'fa fa-cog'
+    },
+    children: [{
+      path: 'limit',
+      component: () => import('./views/Permission.vue'),
+      name: '权限管理',
+      meta: {
+        title: '权限管理',
+        icon: 'fa fa-folder-o'
+      }
+    }]
+  },
+  {
     path: '/member',
     component: Home,
     name: '会员管理',
@@ -33,7 +52,6 @@ export const asyncRouterMap = [
     },
     children : [
       {
-        menuId: 2,
         path: 'detail',
         component: () => import('./views/MemberDetail.vue'),
         name: '会员详情',
@@ -50,34 +68,22 @@ export const asyncRouterMap = [
     hidden: true
   },
   {
-    menuId: 3,
     path: '/form',
     name: '订单管理',
     component: Home,
     redirect: 'noredirect', 
     meta: {
       title: "订单管理",
-      icon: "fa fa-user-o"
+      icon: "fa fa-info"
     },
     children: [
       {
-        menuId: 4,
         path: 'detail',
         name: '订单详情',
         component: () => import('./views/OrderDetail.vue'),
         meta: {
           title: '订单详情',
-          icon: 'fa fa-user-o'
-        }
-      },
-      {
-        menuId: 5,
-        path: 'detail2',
-        name: '订单资料',
-        component: () => import('./views/OrderDetail.vue'),
-        meta: {
-          title: '订单资料',
-          icon: 'fa fa-user-o'
+          icon: 'fa fa-laptop'
         }
       }
     ]
