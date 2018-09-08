@@ -24,7 +24,7 @@
 </template>
 <script>
 import { mapGetters, mapMutations } from 'vuex';
-import types from "../store/mutation-types";
+import types from "../../../store/mutation-types";
 export default {
     computed: mapGetters({
         sidebar: 'sidebar'

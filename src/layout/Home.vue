@@ -16,9 +16,9 @@
 </template>
 <script>
 import Vue from "vue";
-import VHeader from "./header";
-import VSider from "./sideMenu";
-import Breadcrumb from "@/components/Breadcrumb";
+import VHeader from "./components/Header";
+import VSider from "./components/SideBar";
+import Breadcrumb from "./components/Breadcrumb";
 import { mapActions, mapGetters } from 'vuex';
 import 'animate.css'
 export default {
