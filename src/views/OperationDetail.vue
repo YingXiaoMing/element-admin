@@ -13,6 +13,9 @@
                     <el-form-item>
                         <el-button type="primary" icon="el-icon-search"></el-button>
                     </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="exportToExcel()">导出Excel</el-button>
+                    </el-form-item>
             </el-form>
         </el-col>
         <el-col :span="24" style="margin-top:20px">
@@ -28,6 +31,7 @@
     </div>
 </template>
 <script>
+import { export_json_to_excel } from "../vendor/Export2Excel";
 export default {
     data() {
         return {
@@ -58,6 +62,20 @@ export default {
                 operation: '....',
                 times: '2016-06-29 15:06:21'
             }]
+        }
+    },
+    methods: {
+        exportToExcel() {
+            require.ensure([], () => {
+                const tHeader = ['账号名称','账号','操作','时间'];
+                const filterVal = ['accountName','account','operation','times'];
+                const list = this.tableData;
+                const data = this.formatJson(filterVal,list);
+                export_json_to_excel(tHeader, data, '列表excel');
+            });
+        },
+        formatJson(filterVal, jsonData) {
+            return jsonData.map(v => filterVal.map(j => v[j]))
         }
     }
 }
