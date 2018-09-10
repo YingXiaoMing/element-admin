@@ -22,7 +22,8 @@
                 <el-table-column label="操作" prop="operation" align="center"></el-table-column>
                 <el-table-column label="时间" prop="times" align="center"></el-table-column>
             </el-table>
-            <el-pagination :total="20" :page-size="1" :current-page="1" :page-sizes="[5,10,20]" layout="total, sizes, prev, pager, next, jumper"></el-pagination>
+            <el-pagination :total="20" :page-size="1" :current-page="1" 
+            :page-sizes="[5,10,20]" layout="total, sizes, prev, pager, next, jumper"></el-pagination>
         </el-col>
     </div>
 </template>
