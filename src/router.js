@@ -38,6 +38,14 @@ export const asyncRouterMap = [
         title: '权限管理',
         icon: 'fa fa-folder-o'
       }
+    },{
+      path: 'operationDetail',
+      component: () => import('./views/OperationDetail.vue'),
+      name: '操作日志',
+      meta: {
+        title: '操作日志',
+        icon: 'fa fa-id-badge'
+      }
     }]
   },
   {
