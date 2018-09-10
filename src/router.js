@@ -14,7 +14,7 @@ export const constantRouterMap = [
     hidden: true,
     children: [{
       path: 'index',
-      component: () => import('./views/OrderDetail.vue')
+      component: () => import('./views/index.vue')
     }],
   },
 ];
