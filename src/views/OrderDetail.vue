@@ -35,6 +35,8 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <el-pagination :total="20" :page-size="1" :current-page="1" 
+            :page-sizes="[5,10,20]" layout="total, sizes, prev, pager, next, jumper"></el-pagination>
         </el-col>
         <!-- 查看详细 -->
         <el-dialog title="订单详细" :visible.sync="isShowDetail" center width="800px">

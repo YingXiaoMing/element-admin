@@ -1,14 +1,18 @@
 <template>
-    <el-table :data="tableData" border style="width:100%">
-      <el-table-column label="优惠券ID" prop="couponId" align="center"></el-table-column>
-      <el-table-column label="券类型" prop="couponType" align="center"></el-table-column>
-      <el-table-column label="券名称" prop="couponName" align="center"></el-table-column>
-      <el-table-column label="面值（元）" prop="couponMoneys" align="center"></el-table-column>
-      <el-table-column label="有效期（天）" prop="leaveTimes" align="center"></el-table-column>
-      <el-table-column label="过期时间" prop="dateTimes" align="center"></el-table-column>
-      <el-table-column label="获得时间" prop="times" align="center"></el-table-column>
-      <el-table-column label="状态" prop="status" align="center"></el-table-column>
-    </el-table>
+    <div>
+        <el-table :data="tableData" border style="width:100%">
+            <el-table-column label="优惠券ID" prop="couponId" align="center"></el-table-column>
+            <el-table-column label="券类型" prop="couponType" align="center"></el-table-column>
+            <el-table-column label="券名称" prop="couponName" align="center"></el-table-column>
+            <el-table-column label="面值（元）" prop="couponMoneys" align="center"></el-table-column>
+            <el-table-column label="有效期（天）" prop="leaveTimes" align="center"></el-table-column>
+            <el-table-column label="过期时间" prop="dateTimes" align="center"></el-table-column>
+            <el-table-column label="获得时间" prop="times" align="center"></el-table-column>
+            <el-table-column label="状态" prop="status" align="center"></el-table-column>
+        </el-table>
+        <el-pagination :total="20" :page-size="1" :current-page="1" 
+        :page-sizes="[5,10,20]" layout="total, sizes, prev, pager, next, jumper"></el-pagination>
+    </div>
 </template>
 <script>
 export default {
