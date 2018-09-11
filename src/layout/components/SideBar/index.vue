@@ -4,9 +4,7 @@
             <div class="sidebar">
                 <el-menu :default-active="onRoutes" class="el-menu-style" theme="light" router
                 :collapse="sidebar.collapsed">
-                  <template v-for="item in routers" v-if="!item.hidden&&item.children">
-                      <sub-menu :param="item"></sub-menu>
-                  </template>
+                  <sub-menu v-for="route in routers" :key="route.name" :item="route" :base-path="route.path"></sub-menu>
                 </el-menu>
             </div>
         </el-scrollbar>

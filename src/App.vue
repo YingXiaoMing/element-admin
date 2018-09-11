@@ -20,8 +20,13 @@ blockquote, body, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, html
 }
 *,:after, :before {
     -webkit-box-sizing: border-box;
-    
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-  }
+}
+a, a:focus, a:hover {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
 </style>

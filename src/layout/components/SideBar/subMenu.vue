@@ -1,23 +1,76 @@
 <template>
-    <el-submenu :index="item.path" v-if="item.children && item.children.length>0" class="el-menu-sub">
-      <template slot="title"><i :class="item.meta.icon"></i><span>{{item.name}}</span></template>
-      <template v-for="child in item.children">
-          <sub-menu v-if="child.children && child.children.length >0" :param="child"></sub-menu>
-          <el-menu-item :index="item.path + '/' + child.path" v-else><i :class="child.meta.icon"></i><span>{{child.name}}</span></el-menu-item>
-      </template>
-    </el-submenu>
-    <el-menu-item :index="item.path" v-else class="el-menu-each"><i :class="item.meta.icon"></i><span>{{item.name}}</span></el-menu-item>
+    <div v-if="!item.hidden&&item.children" class="menu-wrapper">
+        <template v-if="hasOneShowingChild(item.children) && !onlyOneChild.children && !item.alwaysShow" >
+            <a :href="onlyOneChild.path"  target="_blank" @click="clickLink(onlyOneChild.path,$event)">
+                <el-menu-item :index="resolvePath(onlyOneChild.path)" >
+                    <i v-if="onlyOneChild.meta" :class="onlyOneChild.meta.icon"></i><span slot="title">{{onlyOneChild.meta.title}}</span>
+                </el-menu-item>
+            </a>
+        </template>
+        <el-submenu v-else :index="item.name||item.path">
+            <template slot="title">
+                <i v-if="item.meta" :class="item.meta.icon"></i><span slot="title">{{item.meta.title}}</span>
+            </template>
+            <template v-for="child in item.children" v-if="!child.hidden">
+                <sub-menu v-if="child.children&&child.children.length>0" :item="child" :key="child.path" :base-path="resolvePath(child.path)"></sub-menu>
+                <a v-else :href="child.path" :key="child.name" target="_blank" @click="clickLink(child.path,$event)">
+                    <el-menu-item :index="resolvePath(child.path)">
+                        <i v-if="child.meta" :class="child.meta.icon"></i><span slot="title">{{child.meta.title}}</span>
+                    </el-menu-item>
+                </a>
+            </template>
+        </el-submenu>
+    </div>
 </template>
 <script>
 import subMenu from "./subMenu";
+import { validateURL } from "@/common/utils";
+import path from "path";
 export default {
     name: "subMenu",
-    props: ["param"],
+    props: {
+        item: {
+            type: Object,
+            required: true
+        },
+        basePath: {
+            type: String,
+            default: ''
+        }
+    },
     data() {
-        return {item: this.param}
+        return {
+            onlyOneChild: null
+        }
     },
     components: {
         subMenu
+    },
+    methods: {
+        hasOneShowingChild(children) {
+            const showingChildren = children.filter(item => {
+                if (item.hidden) {
+                    return false
+                } else {
+                    this.onlyOneChild = item;
+                    return true
+                }
+            })
+            if (showingChildren.length === 1) {
+                return true
+            }
+            return false
+        },
+        resolvePath(routePath) {
+            return path.resolve(this.basePath,routePath);
+        },
+        clickLink(routePath, e) {
+            if (!validateURL(routePath)) {
+                e.preventDefault();
+                const path = this.resolvePath(routePath);
+                this.$router.push(path);
+            }
+        }
     }
 }
 </script>

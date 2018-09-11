@@ -13,7 +13,7 @@ export const constantRouterMap = [
     redirect: 'index',
     hidden: true,
     children: [{
-      path: 'index',
+      path: '/index',
       component: () => import('./views/index.vue')
     }],
   },
@@ -21,11 +21,31 @@ export const constantRouterMap = [
 
 export const asyncRouterMap = [
   {
+    path: '/form',
+    name: '订单管理',
+    component: Home,
+    alwaysShow: true,
+    meta: {
+      title: "订单管理",
+      icon: "fa fa-info"
+    },
+    children: [
+      {
+        path: 'detail',
+        name: '订单详情',
+        component: () => import('./views/OrderDetail.vue'),
+        meta: {
+          title: '订单详情',
+          icon: 'fa fa-laptop'
+        }
+      }
+    ]
+  },
+  {
     path: '/system',
     component: Home,
     hidden: false,
     name: '系统管理',
-    redirect: 'noredirect', 
     meta: {
       title: '系统管理',
       icon: 'fa fa-cog'
@@ -53,20 +73,29 @@ export const asyncRouterMap = [
     component: Home,
     name: '会员管理',
     hidden: false,
-    redirect: 'noredirect', 
     meta: {
       title: "会员管理",
       icon: "fa fa-user-o"
     },
     children : [
       {
-        path: 'detail',
-        component: () => import('./views/MemberDetail.vue'),
-        name: '会员详情',
+        path: '/detail',
+        component: () => import('./views/member/index'),
+        name: '会员管理详情',
         meta: {
-          title: '会员详情',
+          title: '会员管理详情',
           icon: 'fa fa-users'
-        }
+        },
+        alwaysShow: true,
+        children: [{
+          path: 'game',
+          name: '会员管理细节',
+          meta: {
+            title: '会员管理',
+            icon: 'fa fa-braille'
+          },
+          component: () => import('./views/member/memberDetail/MemberDetail')
+        }]
       }
     ]
   },
@@ -75,28 +104,21 @@ export const asyncRouterMap = [
     redirect: '/404',
     hidden: true
   },
+  
   {
-    path: '/form',
-    name: '订单管理',
+    path: '/game',
+    name: '游戏管理详情',
     component: Home,
-    redirect: 'noredirect', 
-    meta: {
-      title: "订单管理",
-      icon: "fa fa-info"
-    },
-    children: [
-      {
-        path: 'detail',
-        name: '订单详情',
-        component: () => import('./views/OrderDetail.vue'),
-        meta: {
-          title: '订单详情',
-          icon: 'fa fa-laptop'
-        }
+    children: [{
+      path: 'index',
+      component: () => import('@/views/GameManager'),
+      name : '游戏管理',
+      meta : {
+        icon: 'fa fa-gamepad',
+        title: '游戏管理'
       }
-    ]
+    }]
   }
-
 ]
 
 const routes = [...asyncRouterMap,...constantRouterMap];
