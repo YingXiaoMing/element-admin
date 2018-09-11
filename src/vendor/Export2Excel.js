@@ -1,7 +1,6 @@
 /* eslint-disable */
 //由于这几个文件不支持import引入，所以我们需要`script-loader`来将他们挂载到全局环境下。
 require('script-loader!file-saver');
-require('script-loader!./Blob');
 require('script-loader!xlsx/dist/xlsx.core.min');
 function generateArray(table) {
     var out = [];
