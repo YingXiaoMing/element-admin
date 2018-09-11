@@ -26,6 +26,7 @@ const store = new Vuex.Store({
     mutations: {
         [types.TOGGLE_SIDEBAR] (state,collapsed) {
             if (collapsed == null) collapsed = !state.sidebar.collapsed;
+            console.log("test");
             state.sidebar.collapsed = collapsed;
         },
         [types.TOGGLE_SIDEBAR_SHOW] (state, show) {
