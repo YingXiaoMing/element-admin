@@ -27,7 +27,7 @@ export const asyncRouterMap = [
     alwaysShow: true,
     meta: {
       title: "订单管理",
-      icon: "fa fa-info"
+      icon: "fa fa-laptop"
     },
     children: [
       {

@@ -76,8 +76,9 @@ export default {
 </script>
 <style>
 .el-menu .fa {
-    margin-right: 10px;
-}
+    margin-left: 4px;
+    margin-right: 18px;
+} 
 </style>
 
 

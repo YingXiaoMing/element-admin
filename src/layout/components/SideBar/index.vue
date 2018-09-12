@@ -60,6 +60,9 @@ export default {
     -moz-transition: -moz-transform 0.3s ease-in-out, width 0.3s ease-in-out;
     -o-transition: -o-transform 0.3s ease-in-out, width 0.3s ease-in-out;
     transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+    .el-scrollbar__bar.is-vertical{
+        display: none;
+    }
     &.expandSide {
         width: 230px;
     }
@@ -67,6 +70,16 @@ export default {
         width: 44px;
         .el-menu-item,.el-submenu>.el-submenu__title {
             padding-left: 13px !important;
+            width: 24px;
+            margin: 0;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .el-submenu>.el-submenu__title .el-submenu__icon-arrow {
+            display: none;
+        }
+        .el-tooltip {
+            padding: 0 10px !important;
         }
     }
     .vue-scrollbar {
