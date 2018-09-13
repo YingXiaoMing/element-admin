@@ -45,6 +45,7 @@ export const asyncRouterMap = [
     path: '/system',
     component: Home,
     hidden: false,
+    alwaysShow: true,
     name: '系统管理',
     meta: {
       title: '系统管理',
@@ -72,6 +73,7 @@ export const asyncRouterMap = [
     path: '/member',
     component: Home,
     name: '会员管理',
+    alwaysShow: true,
     hidden: false,
     meta: {
       title: "会员管理",
@@ -79,23 +81,22 @@ export const asyncRouterMap = [
     },
     children : [
       {
-        path: '/detail',
-        component: () => import('./views/member/index'),
-        name: '会员管理详情',
-        meta: {
-          title: '会员管理详情',
-          icon: 'fa fa-users'
-        },
-        alwaysShow: true,
-        children: [{
-          path: 'game',
-          name: '会员管理细节',
+          path: 'detail',
+          name: '会员详情',
+          hidden: true,
           meta: {
-            title: '会员管理',
+            title: '会员详情',
             icon: 'fa fa-braille'
           },
           component: () => import('./views/member/memberDetail/MemberDetail')
-        }]
+      },{
+        path: 'catrgory',
+        name: '会员分类',
+        meta: {
+          title: '会员分类',
+          icon: 'fa fa-grav'
+        },
+        component: () => import('./views/member/memberCategory')
       }
     ]
   },
