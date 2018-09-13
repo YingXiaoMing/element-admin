@@ -50,9 +50,9 @@
                 </el-table-column>
                 <el-table-column label="操作" prop="operation" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text">下架</el-button>
+                        <el-button type="text" @click="openDown">下架</el-button>
                         <el-button type="text">修改</el-button>
-                        <el-button type="text">删除</el-button>
+                        <el-button type="text" @click="openDelete">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -107,6 +107,36 @@ import TagView from "@/components/TagView";
 export default {
     components: {
         TagView
+    },
+    methods: {
+        openDown() {
+            this.$confirm('<strong>确认下架?</strong><p>积分商城、兑换商城、组团商城、普通商城上架的该商品将同步下架</p>','提示', {
+                confirmButtonText: '确认',
+                cancelButtonText: '取消',
+                dangerouslyUseHTMLString: true,
+                type: 'warning',
+                center: true
+            }).then(() => {
+
+            }).catch(() => {
+                
+            });
+        },
+        openDelete() {
+            this.$confirm('<strong>确定删除?</strong><p>积分商城、兑换商城、组团商城、普通商城上架的该商品将同步下架</p>','提示', {
+                confirmButtonText: '确认',
+                cancelButtonText: '取消',
+                dangerouslyUseHTMLString: true,
+                type: 'error',
+                center: true
+            }).then(() => {
+
+            }).catch(() => {
+                
+            });
+        }
+        
+
     },
     data() {
         return {
