@@ -68,10 +68,16 @@
                   <el-input v-model="addGame.gameName"></el-input>
               </el-form-item>
               <el-form-item label="游戏缩略图">
-                  <el-input v-model="addGame.gameName"></el-input>
+                  <el-upload action="https://jsonplaceholder.typicode.com/posts/">
+                    <el-button type="primary" size="small">点击上传</el-button>
+                    <div slot="tip" class="el-upload__tip" style="color:red">只能上传jpg/png文件,且不超过500kb</div>
+                  </el-upload>
               </el-form-item>
               <el-form-item label="游戏LOGO">
-                  <el-input v-model="addGame.gameName"></el-input>
+                  <el-upload action="https://jsonplaceholder.typicode.com/posts/">
+                    <el-button type="primary" size="small">点击上传</el-button>
+                    <div slot="tip" class="el-upload__tip" style="color:red">只能上传jpg/png文件,且不超过500kb</div>
+                  </el-upload>
               </el-form-item>
               <el-form-item label="一级分类">
                   <el-select v-model="addGame.oneCategory" style="width:100%">
@@ -112,6 +118,9 @@ export default {
                 secondCategory: '二级01'
 
             },
+            statusOptions: [{
+
+            }],
             oneCategory: [{
                 id: 1,
                 name: '一级01'
