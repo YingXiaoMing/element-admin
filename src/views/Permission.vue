@@ -10,7 +10,7 @@
               <el-table-column label="状态" prop="status" align="center"></el-table-column>
               <el-table-column label="操作" prop="operation" align="center">
                   <template slot-scope="scope">
-                      <el-button type="text" @click="limitModalVisble = true">[设置权限]</el-button>
+                      <el-button type="text" @click="addLimit(scope.row)">[设置权限]</el-button>
                       <el-button type="text">[编辑]</el-button>
                       <el-button type="text" @click="modifyPasswordVisble = true">[重置密码]</el-button>
                       <el-button type="text">[停用]</el-button>
@@ -56,55 +56,63 @@
             </span>
         </el-dialog>
         <el-dialog title="设置权限" center  :visible.sync="limitModalVisble" width="30%">
-            <el-checkbox-group v-model="limitCheckLists">
-                <div>
-                    <el-checkbox label="订单管理" v-model="limitCheckList.checked1"></el-checkbox>
-                    <el-checkbox label="订单列表" v-model="limitCheckList.checked2"></el-checkbox>
-                </div>
-                <div>
-                    <el-checkbox label="运营管理" v-model="limitCheckList.checked3"></el-checkbox>
-                    <el-checkbox label="banner管理" v-model="limitCheckList.checked4"></el-checkbox>
-                    <el-checkbox label="优惠券管理" v-model="limitCheckList.checked5"></el-checkbox>
-                    <el-checkbox label="用户反馈" v-model="limitCheckList.checked6"></el-checkbox>
-                </div>
-                <div>
-                    <el-checkbox label="文章管理" v-model="limitCheckList.checked7"></el-checkbox>
-                    <el-checkbox label="商务合作" v-model="limitCheckList.checked8"></el-checkbox>
-                </div>
-                <div>
-                    <el-checkbox label="统计分析" v-model="limitCheckList.checked9"></el-checkbox>
-                    <el-checkbox label="用户统计" v-model="limitCheckList.checked10"></el-checkbox>
-                    <el-checkbox label="订单统计" v-model="limitCheckList.checked11"></el-checkbox>
-                    <el-checkbox label="用户分布" v-model="limitCheckList.checked12"></el-checkbox>
-                </div>
-                <div>
-                    <el-checkbox label="活动统计" v-model="limitCheckList.checked13"></el-checkbox>
-                    <el-checkbox label="下载安装统计" v-model="limitCheckList.checked14"></el-checkbox>
-                    <el-checkbox label="卸载统计" v-model="limitCheckList.checked15"></el-checkbox>
-                    <el-checkbox label="在线统计" v-model="limitCheckList.checked16"></el-checkbox>
-                </div>
-                <div>
-                    <el-checkbox label="商品管理" v-model="limitCheckList.checked17"></el-checkbox>
-                    <el-checkbox label="商品列表" v-model="limitCheckList.checked18"></el-checkbox>
-                </div>
-                <div>
-                    <el-checkbox label="游戏管理" v-model="limitCheckList.checked19"></el-checkbox>
-                    <el-checkbox label="游戏列表" v-model="limitCheckList.checked20"></el-checkbox>
-                    <el-checkbox label="分类管理" v-model="limitCheckList.checked21"></el-checkbox>
-                </div>
-                <div>
-                    <el-checkbox label="会员管理" v-model="limitCheckList.checked22"></el-checkbox>
-                    <el-checkbox label="会员列表" v-model="limitCheckList.checked23"></el-checkbox>
-                </div>
-            </el-checkbox-group>
+            <div v-for="(item,index) in permissions" class="lie">
+                <el-checkbox class="first_label" :indeterminate="item.isIndeterminate" v-model="item.checkAll" @change="e => handleCheckAllChange(e,index)">{{item.parent_name}}</el-checkbox>
+                <el-checkbox-group class="permission_group" v-model="item.checked_child" v-if="item.child_name" @change="e => handleCheckedPermissionChange(e,index)">
+                  <el-checkbox v-for="per in item.child_name" :label="per" :key="per">{{per}}</el-checkbox>
+                </el-checkbox-group>
+            </div>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="limitModalVisble = false">取消</el-button>
-                <el-button type="success" @click="limitModalVisble = false">保存</el-button>
+                <el-button type="success" @click="submitClick">保存</el-button>
             </span>
         </el-dialog>
     </div>
 </template>
 <script>
+const permissionOptions = [{
+    parent_name: '订单管理',
+    child_name: ['订单列表'],
+    checked_child: [],
+    isIndeterminate: false,
+    checkAll: false
+},{
+    parent_name: '运营管理',
+    child_name: ['banner管理','优惠券管理','用户反馈','文章管理','商务合作',"广告管理" ],
+    checked_child: [],
+    isIndeterminate: false,
+    checkAll: false
+},{
+    parent_name: '统计分析',
+    child_name: ['用户统计','订单统计','用户分布','活动统计','下载安装统计','卸载统计','在线统计'],
+    checked_child: [],
+    isIndeterminate: false,
+    checkAll: false
+},{
+    parent_name: '商品管理',
+    child_name: ['商品列表'],
+    checked_child: [],
+    isIndeterminate: false,
+    checkAll: false
+},{
+    parent_name: '游戏管理',
+    child_name: ['游戏列表','分类管理'],
+    checked_child: [],
+    isIndeterminate: false,
+    checkAll: false
+},{
+    parent_name: '会员管理',
+    child_name: ['会员列表'],
+    checked_child: [],
+    isIndeterminate: false,
+    checkAll: false
+},{
+    parent_name: '系统管理',
+    child_name: ['权限管理','操作日志','版本发布','其他设置'],
+    checked_child: [],
+    isIndeterminate: false,
+    checkAll: false
+}];
 export default {
     data() {
         var validatePass = (rule, value, callback) => {
@@ -136,7 +144,17 @@ export default {
             tableData: [{
                 accountName: '超级管理者',
                 account: 'superadmin',
-                status: '正常'
+                status: '正常',
+                permissions: [{
+                    parent_name: '订单管理',
+                    child_name: ['订单列表']
+                },{
+                    parent_name: '运营管理',
+                    child_name: ['banner管理','优惠券管理','文章管理','商务合作',"广告管理"]
+                },{
+                    parent_name: '游戏管理',
+                    child_name: ['游戏列表','分类管理']
+                }]
             }],
             passwordRule: {
                 originPassword: [{
@@ -162,33 +180,54 @@ export default {
                 account: ''
             },
             limitCheckLists: [],
-            limitCheckList: {
-                checked1: false,
-                checked2: false,
-                checked3: false,
-                checked4: false,
-                checked5: false,
-                checked6: false,
-                checked7: false,
-                checked8: false,
-                checked9: false,
-                checked10: false,
-                checked11: false,
-                checked12: false,
-                checked13: false,
-                checked14: false,
-                checked15: false,
-                checked16: false,
-                checked17: false,
-                checked19: false,
-                checked20: false,
-                checked21: false,
-                checked22: false,
-                checked23: false
-            }
+            permissions: permissionOptions
         }
     },
     methods: {
+        addLimit(row) {
+            let limitAll = Object.assign([],permissionOptions,true);
+            row.permissions.forEach((item) => {
+                limitAll.find((te) => {
+                    if (te.parent_name == item.parent_name) {
+                        te.checked_child = item.child_name;
+                        if (te.checked_child.length == te.child_name.length) {
+                            te.checkAll = true;
+                        }else {
+                            te.checkAll = false;
+                            te.isIndeterminate = true;
+                        }
+                    }
+                });
+            });
+            console.log(limitAll);
+            this.permissions = limitAll;
+            this.limitModalVisble = true;
+        },
+        submitClick() {
+            let limitArr = [];
+            this.permissions.filter((item) => {
+                if (item.checked_child.length) {
+                    var obj = new Object();
+                    obj.parent_name = item.parent_name;
+                    obj.child_name = item.checked_child;
+                    limitArr.push(obj);
+                }
+            });
+            console.log(limitArr);
+            this.limitModalVisble = false;
+        },
+        handleCheckAllChange(val,index) {
+            console.log(val);
+            console.log(index);
+            this.permissions[index].checked_child = val ? this.permissions[index].child_name : [];
+            this.permissions[index].isIndeterminate = false;
+            
+        },
+        handleCheckedPermissionChange(value,index) {
+            let checkedCount = value.length;
+            this.permissions[index].checkAll = checkedCount === this.permissions[index].child_name.length;
+            this.permissions[index].isIndeterminate = checkedCount > 0 && checkedCount < this.permissions[index].child_name.length;
+        },
         submitPasswordForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
@@ -210,11 +249,39 @@ export default {
         margin-bottom: 22px;
     }
 }
+.lie{
+    margin-bottom: 10px;
+}
 .AddManagerTips {
     text-align: center;
     background-color: hsla(0,87%,69%,.1);
     color: #f56c6c;
     margin-bottom: 10px;
+}
+.el-checkbox {
+    color: #606266;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    width: 30%!important;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    float: left!important;
+}
+.el-checkbox+.el-checkbox{
+    margin-left:0!important;
+}
+.first_label{
+    width: 20%!important;
+}
+
+.permission_group{
+     display: block!important;
+    overflow: hidden;
+    width: 80%;
+    margin-left: 100px;
 }
 </style>
 
